@@ -1,0 +1,106 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Anuncio {
+  - id: Long
+  - ativo: boolean
+  - titulo: String
+  - quantidadeVendida: Integer
+}
+class AvaliacaoCompra {
+  - id: Long
+  - vendedor: boolean
+  - comentario: String
+  - denunciado: boolean
+  - recomenda: boolean
+  - dataAvaliacao: LocalDateTime
+}
+class BatePapo {
+  - id: Long
+}
+class ComentarioBatePapo {
+  - id: Long
+  - vendedor: boolean
+  - comentario: String
+  - dataCriacao: LocalDateTime
+  - denunciado: boolean
+}
+class ComentarioPerfil {
+  - id: Long
+  - comentario: String
+  - denunciado: boolean
+  - dataComentario: LocalDateTime
+}
+class Compra {
+  - id: Long
+  - quantidadeCompra: Integer
+  - valor: double
+}
+
+class Endereco {
+  - id: Long
+  - cidade: String
+  - Bairro: String
+  - rua: String
+  - estado: String
+}
+class Login {
+  - id: Long
+  - password: String
+  - login: String
+  - email: String
+}
+class Marca {
+  - id: Long
+  - nome: String
+}
+class Perfil {
+  - id: Long
+  - dataCriacao: LocalDateTime
+  - reputacao: Long
+}
+class Produto {
+  - id: Long
+  - nome: String
+}
+
+class Usuario {
+  - id: Long
+  - cpf: String
+  - nome: String
+  - dataDeNascimento: Date
+}
+class Variacao {
+  - id: Long
+  - descricao: String
+  - usado: boolean
+  - peso: Double
+  - quantidadeEstoque: Integer
+  - valorLiquido: Double
+  - valorBruto: Double
+}
+
+
+enum FormaPagamento << enumeration >>
+enum StatusCompra << enumeration >>
+enum StatusPerfil << enumeration >>
+
+    Anuncio "0..*" *--> "1" Perfil
+    Anuncio "1" *-> "1" Produto
+    Produto "0.." *-> "1" Marca
+    ComentarioPerfil "0.." *--> "1" Perfil
+    Perfil "1" *-> "1" Login
+    Perfil "1" *-> "1" Usuario
+    Endereco "0.." o-> "1" Usuario
+    Produto "1" *-- "1.." Variacao
+    Compra "*" *-- "*" Variacao
+    Compra "0.." *--> "1" Perfil
+    Compra "0.." *-> "1" Anuncio
+    BatePapo "0.." *--> "1" Anuncio
+    BatePapo "1" *-> "1" Perfil
+    BatePapo "1" o-> "0.." ComentarioBatePapo
+    AvaliacaoCompra "0..2" *-> "1" Compra
+    Compra "0.." *--> "1" StatusCompra
+    Perfil "0.." *-> "1" StatusPerfil
+    Compra "0.." *--> "1" FormaPagamento
+@enduml
